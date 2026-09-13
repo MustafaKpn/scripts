@@ -9,8 +9,6 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
-logger.info("Starting scraper")
-
 
 def getHtmlContent(link):
     response = requests.get(link)
@@ -62,9 +60,10 @@ def countUrl(dbname):
 def main():
     WIBY_URL = "https://www.wiby.me/surprise"
     DB_NAME = "wiby.db"
+    URLS_COUNT = 20
 
-    logger.info("Fetching Wiby")
-    fetchWibyUrls(WIBY_URL, DB_NAME, 20)
-    logging.info(F"Inserted {countUrl(DB_NAME)} into {DB_NAME}")
+    logger.info("Starting Wiby crawler")
+    fetchWibyUrls(WIBY_URL, DB_NAME, URLS_COUNT)
+    logging.info(F"{DB_NAME} has {countUrl(DB_NAME)} entries")
 
 main()
