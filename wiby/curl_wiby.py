@@ -60,7 +60,7 @@ def countUrl(dbname):
 def main():
     WIBY_URL = "https://www.wiby.me/surprise"
     DB_NAME = "wiby.db"
-    URLS_COUNT = 20
+    URLS_COUNT = 100
 
     logger.info("Starting Wiby crawler")
     fetchWibyUrls(WIBY_URL, DB_NAME, URLS_COUNT)
