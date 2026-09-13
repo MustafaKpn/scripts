@@ -33,7 +33,7 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
-          git add scraper/wiby.db
+          git add wiby/wiby.db
 
           if git diff --staged --quiet; then
             echo "No database changes."
