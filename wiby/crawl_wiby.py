@@ -36,18 +36,25 @@ def createDatabase(dbname):
 
 
 def fetchWibyUrls(url, dbname, count=10):
-    db = sqlite3.connect(dbname)
-    for i in range(count):
-        surprise_url = getSurpriseUrl(url)
-        db.execute("""
-        INSERT INTO urls (url)
-        VALUES (?)
-        ON CONFLICT(url) DO NOTHING
-    """, (surprise_url,))
-        
-    db.commit()
-    logger.info(f"Inserted {surprise_url} into the database {dbname}")
+    new_entries_count = 0
 
+    with sqlite3.connect(dbname) as db:
+        for _ in range(count):
+            surprise_url = getSurpriseUrl(url)
+
+            cursor = db.execute(
+                """
+                INSERT INTO urls (url)
+                VALUES (?)
+                ON CONFLICT(url) DO NOTHING
+                """,
+                (surprise_url,),
+            )
+
+            if cursor.rowcount == 1:
+                new_entries_count += 1
+
+    logger.info(f"Inserted {new_entries_count} new entries into database {dbname}")
 
 
 def countUrl(dbname):
