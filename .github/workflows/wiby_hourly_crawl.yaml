@@ -2,11 +2,17 @@ name: Hourly Crawler
 
 on:
   schedule:
-    - cron: "0 * * * *"
+    # Not ":00" on purpose: GitHub delays or drops schedules in the congested top-of-hour slot.
+    - cron: "23 * * * *"
   workflow_dispatch:
 
 permissions:
   contents: write
+
+# One run at a time, so an overlapping manual run cannot break the scheduled push.
+concurrency:
+  group: wiby-crawl
+  cancel-in-progress: false
 
 jobs:
   crawl:
